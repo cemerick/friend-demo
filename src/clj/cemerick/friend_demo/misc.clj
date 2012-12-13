@@ -13,6 +13,11 @@
          (.replace \- \_))
        ".clj"))
 
+(defn github-link
+  [req]
+  [:div {:style "float:right; width:10%"}
+   [:a {:href (github-url-for (-> req :demo :ns-name))} "View source"]])
+
 (defn resolve-uri
   [context uri]
   (let [context (if (instance? URI context) context (URI. context))]

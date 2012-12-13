@@ -1,8 +1,9 @@
-(ns ^{:name "HTTP Basic over SSL (\"channel security\" middleware)"
+(ns ^{:name "HTTP Basic over SSL (using `requires-scheme` middleware)"
       :doc "Same as 'HTTP Basic', but with the added condition that HTTPS/SSL is used (suitable for web service APIs)."}
   cemerick.friend-demo.https-basic
   (:require [cemerick.friend :as friend]
             [cemerick.friend-demo.http-basic :as basic]
+            [compojure.core :refer (GET)]
             [compojure.handler :refer (site)]))
 
 
@@ -14,3 +15,10 @@
            site))
 
 (def page basic/page)
+
+(def page (GET "/" req (basic/http-basic-page req
+                         [:p "Note that because the handler that requires authentication is "
+                          "further guarded by "
+                          [:code "cemerick.friend/requires-scheme"]
+                          ", all requests to it are redirected over HTTPS "
+                          "(even before the HTTP Basic challenge is sent, if required)."])))
