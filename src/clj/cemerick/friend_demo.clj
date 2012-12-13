@@ -54,5 +54,3 @@
   "For heroku."
   [port]
   (ring.adapter.jetty/run-jetty #'site {:port (Integer. port)}))
-
-(in-ns 'user)

@@ -32,7 +32,7 @@
 (defroutes page
   (GET "/" req
       (h/html5
-         [:h2 (-> *ns* meta :name)]
+         [:h2 "HTTP Basic"]
          [:p
           "Attempting to access " (e/link-to {:id "interactive_url"}
                                              (context-uri req "requires-authentication")
