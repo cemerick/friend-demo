@@ -1,0 +1,3 @@
+# used only by heroku when it builds its slug for deployment
+# the `production` profile brings in a heroku-local mirror for central and clojars
+lein with-profile production sanity-check

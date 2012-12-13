@@ -16,9 +16,9 @@
                  
                  [bultitude "0.1.7"]]
   
-  :aliases  {"sanity-check" ["with-profile" "sanity-check" "do" "clean," "compile"]}
+  ;; the final clean keeps AOT garbage out of the REPL's way, and keeps
+  ;; the namespace metadata available at runtime
+  :aliases  {"sanity-check" ["do" "clean," "compile" ":all," "clean"]}
   
   :ring {:handler cemerick.friend-demo/site
-         :init cemerick.friend-demo/init}
-  
-  :profiles {:sanity-check {:aot :all}})
+         :init cemerick.friend-demo/init})
