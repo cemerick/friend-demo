@@ -23,9 +23,8 @@
                    ;; TODO make :allow-anon? true once this is fixed:
                    ;; https://github.com/cemerick/friend/issues/38
                    {:allow-anon? false
-                    :workflows [(workflows/http-basic
-                                  :credential-fn #(creds/bcrypt-credential-fn @users %)
-                                  :realm "Friend demo")]}))
+                    :credential-fn #(creds/bcrypt-credential-fn @users %)
+                    :workflows [(workflows/http-basic :realm "Friend demo")]}))
 
 (def app (site secured-app))
 
