@@ -4,6 +4,7 @@
   (:require [cemerick.friend :as friend]
             (cemerick.friend [workflows :as workflows]
                              [credentials :as creds])
+            [cemerick.friend-demo.misc :refer (context-uri request-url)]
             [compojure.core :refer (GET defroutes)]
             [compojure.handler :as handler]
             [hiccup.page :refer (html5)]
@@ -11,7 +12,7 @@
 
 (defroutes routes
   (GET "/" req
-       (html5 (e/link-to "logout" "Logging out")
+       (html5 (e/link-to (context-uri "logout") "Logging out")
               " will clear all retained Friend identities from your session."))
   (GET "/logout" req
        (html5 "You've been logged out; want to "
