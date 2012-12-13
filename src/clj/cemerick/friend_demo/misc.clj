@@ -1,0 +1,24 @@
+(ns cemerick.friend-demo.misc
+  (:import java.net.URI))
+
+(defn resolve-uri
+  [context uri]
+  (let [context (if (instance? URI context) context (URI. context))]
+    (.resolve context uri)))
+
+(defn context-uri
+  "Resolves a [uri] against the :context URI (if found) in the provided
+   Ring request.  (Only useful in conjunction with compojure.core/context.)"
+  [{:keys [context]} uri]
+  (if-let [base (and context (str context "/"))]
+    (str (resolve-uri base uri))
+    uri))
+
+(defn request-url
+  "Returns the full URL that provoked the given Ring request as a string."
+  [{:keys [scheme server-name server-port uri query-string]}]
+  (let [port (when (or (and (= :http scheme) (not= server-port 80))
+                       (and (= :https scheme) (not= server-port 443)))
+               (str ":" server-port))]
+    (str (name scheme) "://" server-name port uri
+         (when query-string (str "?" query-string)))))

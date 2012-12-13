@@ -12,7 +12,9 @@
 
                  [hiccup "1.0.1"]
                  [compojure "1.1.0"]
-                 [ring/ring-jetty-adapter "1.1.0"]]
+                 [ring/ring-jetty-adapter "1.1.0"]
+                 
+                 [bultitude "0.1.7"]]
   
   :aliases  {"sanity-check" ["with-profile" "sanity-check" "do" "clean," "compile"]}
   
