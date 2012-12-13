@@ -39,10 +39,15 @@
                             [:li (e/link-to route-prefix [:strong name])
                              " — " doc])]]])))
 
+(defn- wrap-app-metadata
+  [h app-metadata]
+  (fn [req] (h (assoc req :demo app-metadata))))
+
 (def site (apply compojure/routes
             landing
-            (for [{:keys [app page route-prefix]} the-menagerie]
-              (compojure/context route-prefix [] (compojure/routes page app)))))
+            (for [{:keys [app page route-prefix] :as metadata} the-menagerie]
+              (compojure/context route-prefix []
+                (wrap-app-metadata (compojure/routes page app) metadata)))))
 
 (defn run
   []

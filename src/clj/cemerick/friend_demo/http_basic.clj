@@ -2,7 +2,7 @@
       :doc "Using HTTP Basic to authenticate to a Ring app"}
   cemerick.friend-demo.http-basic
   (:require [cemerick.friend-demo.users :refer (users)]
-            [cemerick.friend-demo.misc :refer (context-uri request-url)]
+            [cemerick.friend-demo.misc :refer (context-uri request-url github-url-for)]
             [cemerick.friend :as friend]
             (cemerick.friend [workflows :as workflows]
                              [credentials :as creds])
@@ -32,7 +32,9 @@
 (defroutes page
   (GET "/" req
       (h/html5
-         [:h2 "HTTP Basic"]
+         [:div {:style "float:right; width:50%"}
+          [:a {:href (github-url-for (-> req :demo :ns-name))} "View source"]]
+         [:h2 (-> req :demo :name)]
          [:p
           "Attempting to access " (e/link-to {:id "interactive_url"}
                                              (context-uri req "requires-authentication")

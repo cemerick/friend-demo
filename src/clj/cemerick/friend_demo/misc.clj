@@ -1,5 +1,17 @@
 (ns cemerick.friend-demo.misc
+  (:require [clojure.string :as str])
   (:import java.net.URI))
+
+(def github-base-url
+  "https://github.com/cemerick/friend-demo/blob/master/src/clj/")
+
+(defn github-url-for
+  [ns-name]
+  (str github-base-url
+       (-> (name ns-name)
+         (.replace \. \/)
+         (.replace \- \_))
+       ".clj"))
 
 (defn resolve-uri
   [context uri]
