@@ -48,9 +48,12 @@
     (POST "/finish" {{:keys [password pin]} :params
                      {:keys [user-record]} :session
                      :as request}
-       (if (and user-record password (= pin (:pin user-record)))
-         (make-auth user-record {::friend/workflow :multi-factor
-                                 ::friend/redirect-on-auth? true})
+       (if (and user-record password
+             (creds/bcrypt-verify password (:password user-record))
+             (= pin (:pin user-record)))
+         (make-auth (dissoc user-record :password)
+           {::friend/workflow :multi-factor
+            ::friend/redirect-on-auth? true})
          (pin-page user-record true)))))
 
 (defroutes app*
