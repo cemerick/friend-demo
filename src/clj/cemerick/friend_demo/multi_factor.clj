@@ -37,12 +37,12 @@
 (defn multi-factor
   [& {:keys [credential-fn] :as form-config}]
   (routes
-    (fn [_] (println (:session _)))
     (GET "/login" req (login-page))
-    (POST "/start" {:keys [params] :as request}
+    (POST "/start" {:keys [params session] :as request}
       (if-let [user-record (-> params :username credential-fn)]
         (-> (pin-page user-record false)
           resp/response
+          (assoc :session session)
           (update-in [:session] assoc :user-record user-record))
         (resp/redirect (context-uri request "login"))))
     (POST "/finish" {{:keys [password pin]} :params
