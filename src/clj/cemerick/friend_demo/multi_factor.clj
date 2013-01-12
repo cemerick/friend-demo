@@ -5,6 +5,7 @@
             [cemerick.friend-demo.misc :refer (context-uri request-url github-link)]
             [cemerick.friend :as friend]
             [cemerick.friend.workflows :refer (make-auth)]
+            [cemerick.friend.credentials :as creds]
             
             [compojure.core :refer (GET POST routes defroutes)]
             [compojure.handler :refer (site)]

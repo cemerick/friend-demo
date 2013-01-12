@@ -11,7 +11,7 @@
                  [com.cemerick/friend "0.1.2"]
 
                  [hiccup "1.0.1"]
-                 [compojure "1.1.0"]
+                 [compojure "1.1.4"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  
                  [bultitude "0.1.7"]]
