@@ -8,7 +8,7 @@
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  
-                 [com.cemerick/friend "0.1.3-SNAPSHOT"]
+                 [com.cemerick/friend "0.1.4"]
 
                  [hiccup "1.0.1"]
                  [compojure "1.1.4"]
