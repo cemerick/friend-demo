@@ -20,11 +20,11 @@
 
 (def secured-app (friend/authenticate
                    app*
-                   ;; TODO make :allow-anon? true once this is fixed:
-                   ;; https://github.com/cemerick/friend/issues/38
-                   {:allow-anon? false
-                    :credential-fn #(creds/bcrypt-credential-fn @users %)
-                    :workflows [(workflows/http-basic :realm "Friend demo")]}))
+                   {:allow-anon? true
+                    :unauthenticated-handler #(workflows/http-basic-deny "Friend demo" %)
+                    :workflows [(workflows/http-basic
+                                 :credential-fn #(creds/bcrypt-credential-fn @users %)
+                                 :realm "Friend demo")]}))
 
 (def app (site secured-app))
 
