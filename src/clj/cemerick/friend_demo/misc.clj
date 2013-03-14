@@ -39,3 +39,8 @@
                (str ":" server-port))]
     (str (name scheme) "://" server-name port uri
          (when query-string (str "?" query-string)))))
+
+(def ns-prefix "cemerick.friend-demo")
+(defn ns->context
+  [ns]
+  (str "/" (-> ns ns-name name (subs (inc (count ns-prefix))))))

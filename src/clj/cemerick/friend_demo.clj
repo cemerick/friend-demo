@@ -1,12 +1,11 @@
 (ns cemerick.friend-demo
-  (:require (compojure handler [route :as route])
+  (:require [cemerick.friend-demo.misc :as misc]
+            (compojure handler [route :as route])
             [compojure.core :as compojure :refer (GET defroutes)]
             [hiccup.core :as h]
             [hiccup.element :as e]
             ring.adapter.jetty
             [bultitude.core :as b]))
-
-(def ns-prefix "cemerick.friend-demo")
 
 (defn- demo-vars
   [ns]
@@ -14,16 +13,15 @@
    :ns-name (ns-name ns)
    :name (-> ns meta :name)
    :doc (-> ns meta :doc)
-   :route-prefix (str "/" (-> ns ns-name name (subs (inc (count ns-prefix)))))
+   :route-prefix (misc/ns->context ns)
    :app (ns-resolve ns 'app)
    :page (ns-resolve ns 'page)})
 
-(def the-menagerie (->> (b/namespaces-on-classpath :prefix ns-prefix)
+(def the-menagerie (->> (b/namespaces-on-classpath :prefix misc/ns-prefix)
                      distinct
                      (map #(do (require %) (the-ns %)))
                      (map demo-vars)
-                     (filter :app)
-                     (filter :page)))
+                     (filter #(or (:app %) (:page %)))))
 
 (defroutes landing
   (GET "/" req (h/html [:html
@@ -36,7 +34,7 @@
                          [:h2 "Demonstrations"]
                          [:ol
                           (for [{:keys [name doc route-prefix]} the-menagerie]
-                            [:li (e/link-to route-prefix [:strong name])
+                            [:li (e/link-to (str route-prefix "/") [:strong name])
                              " — " doc])]]])))
 
 (defn- wrap-app-metadata
@@ -47,7 +45,7 @@
             landing
             (for [{:keys [app page route-prefix] :as metadata} the-menagerie]
               (compojure/context route-prefix []
-                (wrap-app-metadata (compojure/routes page app) metadata)))))
+                (wrap-app-metadata (compojure/routes (or page (fn [_])) (or app (fn [_]))) metadata)))))
 
 (defn run
   []

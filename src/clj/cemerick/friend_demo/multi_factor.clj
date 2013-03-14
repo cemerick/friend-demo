@@ -65,7 +65,7 @@
 (def secured-app (friend/authenticate
                    app*
                    {:allow-anon? true
-                    :login-uri "/multi-factor/login"
+                    :login-uri "/login"
                     :workflows [(multi-factor :credential-fn @users)]}))
 
 (def app (site secured-app))

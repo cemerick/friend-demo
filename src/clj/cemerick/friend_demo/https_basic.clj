@@ -1,4 +1,4 @@
-(ns ^{:name "HTTP Basic over SSL (using `requires-scheme` middleware)"
+(ns ^{:name "HTTP Basic requiring SSL"
       :doc "Same as 'HTTP Basic', but with the added condition that HTTPS/SSL is used (suitable for web service APIs)."}
   cemerick.friend-demo.https-basic
   (:require [cemerick.friend :as friend]
