@@ -10,10 +10,16 @@
                  
                  [com.cemerick/friend "0.1.5-SNAPSHOT"]
 
-                 [hiccup "1.0.1"]
                  [compojure "1.1.4"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  
+                 ;; only used for the oauth-related demos
+                 [friend-oauth2 "0.0.3"]
+                 
+                 ;; only used to generate demo app pages
+                 [hiccup "1.0.1"]
+                 
+                 ;; only used to discover demo app namespaces
                  [bultitude "0.1.7"]]
   
   ;; the final clean keeps AOT garbage out of the REPL's way, and keeps
