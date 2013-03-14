@@ -14,8 +14,6 @@
            (friend/requires-scheme-with-proxy :https)
            site))
 
-(def page basic/page)
-
 (def page (GET "/" req (basic/http-basic-page req
                          [:p "Note that because the handler that requires authentication is "
                           "further guarded by "

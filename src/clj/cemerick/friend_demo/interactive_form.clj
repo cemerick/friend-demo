@@ -22,6 +22,7 @@
 (compojure/defroutes routes
   (GET "/" req
     (h/html5
+      (misc/github-link req)
       [:h2 "Interactive form authentication"]
       [:p "This app demonstrates typical username/password authentication, and a pinch of Friend's authorization capabilities."]
       [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
