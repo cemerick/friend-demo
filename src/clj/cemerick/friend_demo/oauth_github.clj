@@ -1,5 +1,5 @@
 (ns ^{:name "GitHub using OAuth2"
-      :doc "Authenticating via GitHub using OAuth2"}
+      :doc "Authenticating via GitHub using OAuth2 [EXPERIMENTAL]"}
   cemerick.friend-demo.oauth-github
   (:require [cemerick.friend-demo.misc :as misc]
             [cemerick.friend-demo.users :as users :refer (users)]
@@ -30,7 +30,7 @@
   (GET "/" req
     (h/html5
       (misc/github-link req)
-      [:h2 "Authenticating via GitHub using OAuth2"]
+      [:h2 "Authenticating via GitHub using OAuth2 [EXPERIMENTAL]"]
       [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
       [:p (if-let [identity (friend/identity req)]
             (str "Logged in, with these roles "
@@ -42,7 +42,7 @@
       
       (when-let [{access-token :access_token} (friend/current-authentication req)]
         [:div
-         [:h3 "Some of your public repositories on GitHub, obtained using access token above:"]
+         [:h3 "Some of your public repositories on GitHub, obtained using the access token above:"]
          [:ul (for [repo (get-public-repos access-token)]
                 [:li (:full-name repo)])]])
       
