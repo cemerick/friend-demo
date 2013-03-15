@@ -29,7 +29,8 @@
   (GET "/" req (h/html [:html
                         misc/pretty-head
                         (misc/pretty-body 
-                         [:h1 {:style "margin-bottom:0px"} "Among Friends"]
+                         [:h1 {:style "margin-bottom:0px"}
+                          [:a {:href "http://github.com/cemerick/friend-demo"} "Among Friends"]]
                          [:p {:style "margin-top:0px"} [:small " (a collection of demonstration apps using "
                           (e/link-to "http://github.com/cemerick/friend" "Friend")
                           ", an authentication and authorization library for securing Clojure web services and applications.)"]]
