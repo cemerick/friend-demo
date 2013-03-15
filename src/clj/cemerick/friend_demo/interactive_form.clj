@@ -27,7 +27,7 @@
   (GET "/" req
     (h/html5
       misc/pretty-head
-      [:body {:class "row"}
+      (misc/pretty-body
        (misc/github-link req)
        [:h2 "Interactive form authentication"]
        [:p "This app demonstrates typical username/password authentication, and a pinch of Friend's authorization capabilities."]
@@ -47,9 +47,9 @@
         [:li (e/link-to (misc/context-uri req "requires-authentication")
                "Requires any authentication, no specific role requirement")]]
        [:h3 "Logging out"]
-       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."]]))
+       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."])))
   (GET "/login" req
-    (h/html5 misc/pretty-head [:body {:class "row"} login-form]))
+    (h/html5 misc/pretty-head (misc/pretty-body login-form)))
   (GET "/logout" req
     (friend/logout* (resp/redirect (str (:context req) "/"))))
   (GET "/requires-authentication" req

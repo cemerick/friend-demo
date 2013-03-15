@@ -32,7 +32,7 @@
   [req footer]
   (h/html5
     misc/pretty-head
-    [:body {:class "row"}
+    (misc/pretty-body
      (github-link req)
      [:h2 (-> req :demo :name)]
      [:p "Attempting to access " (e/link-to {:id "interactive_url"}
@@ -48,7 +48,7 @@
     [:p [:code "curl "
          (str/replace (str (request-url req) "/requires-authentication")
            #"://" #(str % (-> @users first val :username (str ":clojure@"))))]]
-    footer]))
+    footer)))
 
 (defroutes page
   (GET "/" req

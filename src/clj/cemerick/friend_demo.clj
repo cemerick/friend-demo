@@ -27,7 +27,7 @@
 (defroutes landing
   (GET "/" req (h/html [:html
                         misc/pretty-head
-                        [:body {:class "row"} 
+                        (misc/pretty-body 
                          [:h1 {:style "margin-bottom:0px"} "Among Friends"]
                          [:p {:style "margin-top:0px"} [:small " (a collection of demonstration apps using "
                           (e/link-to "http://github.com/cemerick/friend" "Friend")
@@ -37,7 +37,7 @@
                          [:ol
                           (for [{:keys [name doc route-prefix]} the-menagerie]
                             [:li (e/link-to (str route-prefix "/") [:strong name])
-                             " — " doc])]]])))
+                             " — " doc])])])))
 
 (defn- wrap-app-metadata
   [h app-metadata]

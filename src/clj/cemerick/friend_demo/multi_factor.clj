@@ -17,17 +17,17 @@
   []
   (h/html5
     misc/pretty-head
-    [:body {:class "row"}
+    (misc/pretty-body
      [:form {:action "start" :method "POST" :class "columns small-4"}
       "Username: "
       [:input {:type "text" :name "username"}]
-      [:input {:type "submit" :class "button" :value "Login"}]]]))
+      [:input {:type "submit" :class "button" :value "Login"}]])))
 
 (defn- pin-page
   [identity invalid-login?]
   (h/html5
     misc/pretty-head
-    [:body {:class "row"}
+    (misc/pretty-body
      (when invalid-login?
        [:p {:style "color:red"} "Sorry, that's not correct!"])
      [:p "Hello, " (:username identity) "; it looks like you're a "
@@ -37,7 +37,7 @@
      [:form {:action "finish" :method "POST" :class "columns small-4"}
       [:div "Password: " [:input {:type "text" :name "password"}]]
       [:div "PIN: " [:input {:type "text" :name "pin"}]]
-      [:input {:type "submit" :class "button" :value "Verify PIN"}]]]))
+      [:input {:type "submit" :class "button" :value "Verify PIN"}]])))
 
 (defn multi-factor
   [& {:keys [credential-fn] :as form-config}]
@@ -80,7 +80,7 @@
   (GET "/" req
     (h/html5
       misc/pretty-head
-      [:body {:class "row"}
+      (misc/pretty-body
        (github-link req)
        [:h2 (-> req :demo :name)]
        [:p "Clicking " (e/link-to (context-uri req "requires-authentication")
@@ -89,5 +89,5 @@
            "where a random PIN is sent to you via SMS.  (The PIN for this demo "
            "is always `1234`)."]
        [:h3 "Logging out"]
-       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."]])))
+       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."]))))
 

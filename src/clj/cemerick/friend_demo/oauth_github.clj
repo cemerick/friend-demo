@@ -33,7 +33,7 @@
     (h/html5
       misc/pretty-head
       (misc/github-link req)
-      [:body {:class "row"}
+      (misc/pretty-body
        [:h2 "Authenticating via GitHub using OAuth2 [EXPERIMENTAL]"]
        [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
        [:p (if-let [identity (friend/identity req)]
@@ -60,7 +60,7 @@
         [:li (e/link-to (misc/context-uri req "requires-authentication")
                "Requires any authentication, no specific role requirement")]]
        [:h3 "Logging out"]
-       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."]]))
+       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."])))
   (GET "/logout" req
     (friend/logout* (resp/redirect (str (:context req) "/"))))
   (GET "/requires-authentication" req
