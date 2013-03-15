@@ -40,12 +40,10 @@
         (misc/github-link req)
         [:h2 "Authenticating via GitHub using OAuth2 [EXPERIMENTAL]"]
         [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
-        [:p (if-let [identity (friend/identity req)]
-              [:span "Logged in as GitHub user " [:strong (get-github-handle (:current identity))]
-                     " with GitHub OAuth2 access token " (:current identity)]
-              "anonymous user")]
-        
-        [:h3 [:a {:href "github.callback"} "Login with GitHub"]]
+        (if-let [identity (friend/identity req)]
+          [:p "Logged in as GitHub user " [:strong (get-github-handle (:current identity))]
+           " with GitHub OAuth2 access token " (:current identity)]
+          [:h3 [:a {:href "github.callback"} "Login with GitHub"]])
         
         (when-let [{access-token :access_token} (friend/current-authentication req)]
           [:div
