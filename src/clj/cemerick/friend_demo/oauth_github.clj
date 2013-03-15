@@ -75,14 +75,14 @@
   {:client-id (System/getenv "github_client_id")
    :client-secret (System/getenv "github_client_secret")
    ;; TODO get friend-oauth2 to support :context, :path-info
-   :callback {:domain "http://friend-demo.herokuapp.com" :path "/oauth-github/github.callback"}})
+   :callback {:domain (System/getenv "github_client_domain") :path "/oauth-github/github.callback"}})
 
 (def uri-config
   {:authentication-uri {:url "https://github.com/login/oauth/authorize"
                         :query {:client_id (:client-id client-config)
                                 :response_type "code"
                                 :redirect_uri (oauth2/format-config-uri client-config)
-                                :scope "user"}}
+                                :scope ""}}
 
    :access-token-uri {:url "https://github.com/login/oauth/access_token"
                       :query {:client_id (:client-id client-config)
