@@ -22,7 +22,8 @@
                      distinct
                      (map #(do (require %) (the-ns %)))
                      (map demo-vars)
-                     (filter #(or (:app %) (:page %)))))
+                     (filter #(or (:app %) (:page %)))
+                     (sort-by :ns-name)))
 
 (defroutes landing
   (GET "/" req (h/html [:html
