@@ -17,16 +17,20 @@
             [hiccup.page :as h]
             [hiccup.element :as e]))
 
-(defn- get-public-repos*
-  [access-token]
-  (-> (str "https://api.github.com/user/repos?type=public&access_token=" access-token)
+(defn- call-github
+  [endpoint access-token]
+  (-> (format "https://api.github.com%s%s&access_token=%s"
+        endpoint
+        (when-not (.contains endpoint "?") "?")
+        access-token)
     http/get
     :body
     (json/parse-string (fn [^String s] (keyword (.replace s \_ \-))))))
 
 ;; This sort of blind memoization is *bad*. Please don't do this in your real apps.
 ;; Go use an appropriate cache from https://github.com/clojure/core.cache
-(def get-public-repos (memoize get-public-repos*))
+(def get-public-repos (memoize (partial call-github "/user/repos?type=public")))
+(def get-github-handle (memoize (comp :login (partial call-github "/user"))))
 
 (compojure/defroutes routes
   (GET "/" req
@@ -37,9 +41,8 @@
         [:h2 "Authenticating via GitHub using OAuth2 [EXPERIMENTAL]"]
         [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
         [:p (if-let [identity (friend/identity req)]
-              (str "Logged in, with these roles "
-                (-> identity friend/current-authentication :roles seq)
-                " and this GitHub OAuth2 access token: " (:current identity))
+              [:span "Logged in as GitHub user " [:strong (get-github-handle (:current identity))]
+                     " with GitHub OAuth2 access token " (:current identity)]
               "anonymous user")]
         
         [:h3 [:a {:href "github.callback"} "Login with GitHub"]]
