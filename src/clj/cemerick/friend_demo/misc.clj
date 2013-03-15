@@ -15,8 +15,10 @@
 
 (defn github-link
   [req]
-  [:div {:style "float:right; width:10%"}
-   [:a {:href (github-url-for (-> req :demo :ns-name))} "View source"]])
+  [:div {:style "float:right; width:50%; margin-top:1em; text-align:right"}
+   [:a {:class "button" :href (github-url-for (-> req :demo :ns-name))} "View source"]
+   " "
+   [:a {:class "button secondary" :href "/"} "All demos"]])
 
 (defn resolve-uri
   [context uri]
@@ -44,3 +46,8 @@
 (defn ns->context
   [ns]
   (str "/" (-> ns ns-name name (subs (inc (count ns-prefix))))))
+
+(def pretty-head
+  [:head [:link {:href "/css/normalize.css" :rel "stylesheet" :type "text/css"}]
+         [:link {:href "/css/foundation.min.css" :rel "stylesheet" :type "text/css"}]
+         [:script {:src "/js/foundation.min.js" :type "text/javascript"}]])

@@ -14,37 +14,42 @@
             [hiccup.element :as e]))
 
 (def login-form
-  [:form {:method "POST" :action "login"}
-   [:div "Username" [:input {:type "text" :name "username"}]]
-   [:div "Password" [:input {:type "password" :name "password"}]]
-   [:div [:input {:type "submit" :value "Login"}]]])
+  [:div {:class "row"}
+   [:div {:class "columns small-12"}
+    [:h3 "Login"]
+    [:div {:class "row"}
+     [:form {:method "POST" :action "login" :class "columns small-4"}
+      [:div "Username" [:input {:type "text" :name "username"}]]
+      [:div "Password" [:input {:type "password" :name "password"}]]
+      [:div [:input {:type "submit" :class "button" :value "Login"}]]]]]])
 
 (compojure/defroutes routes
   (GET "/" req
     (h/html5
-      (misc/github-link req)
-      [:h2 "Interactive form authentication"]
-      [:p "This app demonstrates typical username/password authentication, and a pinch of Friend's authorization capabilities."]
-      [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
-      [:p (if-let [identity (friend/identity req)]
-            (apply str "Logged in, with these roles: "
-              (-> identity friend/current-authentication :roles))
-            "anonymous user")]
-      [:h3 "Login"]
-      login-form
-      [:h3 "Authorization demos"]
-      [:p "Each of these links require particular roles (or, any authentication) to access. "
-          "If you're not authenticated, you will be redirected to a dedicated login page. "
-          "If you're already authenticated, but do not meet the authorization requirements "
-          "(e.g. you don't have the proper role), then you'll get an Unauthorized HTTP response."]
-      [:ul [:li (e/link-to (misc/context-uri req "role-user") "Requires the `user` role")]
-       [:li (e/link-to (misc/context-uri req "role-admin") "Requires the `admin` role")]
-       [:li (e/link-to (misc/context-uri req "requires-authentication")
-              "Requires any authentication, no specific role requirement")]]
-      [:h3 "Logging out"]
-      [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."]))
+      misc/pretty-head
+      [:body {:class "row"}
+       (misc/github-link req)
+       [:h2 "Interactive form authentication"]
+       [:p "This app demonstrates typical username/password authentication, and a pinch of Friend's authorization capabilities."]
+       [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
+       [:p (if-let [identity (friend/identity req)]
+             (apply str "Logged in, with these roles: "
+               (-> identity friend/current-authentication :roles))
+             "anonymous user")]
+       login-form
+       [:h3 "Authorization demos"]
+       [:p "Each of these links require particular roles (or, any authentication) to access. "
+           "If you're not authenticated, you will be redirected to a dedicated login page. "
+           "If you're already authenticated, but do not meet the authorization requirements "
+           "(e.g. you don't have the proper role), then you'll get an Unauthorized HTTP response."]
+       [:ul [:li (e/link-to (misc/context-uri req "role-user") "Requires the `user` role")]
+        [:li (e/link-to (misc/context-uri req "role-admin") "Requires the `admin` role")]
+        [:li (e/link-to (misc/context-uri req "requires-authentication")
+               "Requires any authentication, no specific role requirement")]]
+       [:h3 "Logging out"]
+       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."]]))
   (GET "/login" req
-    (h/html5 login-form))
+    (h/html5 misc/pretty-head [:body {:class "row"} login-form]))
   (GET "/logout" req
     (friend/logout* (resp/redirect (str (:context req) "/"))))
   (GET "/requires-authentication" req

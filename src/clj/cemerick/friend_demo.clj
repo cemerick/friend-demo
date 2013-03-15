@@ -4,6 +4,7 @@
             [compojure.core :as compojure :refer (GET defroutes)]
             [hiccup.core :as h]
             [hiccup.element :as e]
+            [ring.middleware.resource :refer (wrap-resource)]
             ring.adapter.jetty
             [bultitude.core :as b]))
 
@@ -25,11 +26,12 @@
 
 (defroutes landing
   (GET "/" req (h/html [:html
-                        [:body
-                         [:h1 "Among Friends"]
-                         [:small " (a collection of demonstration apps using "
+                        misc/pretty-head
+                        [:body {:class "row"} 
+                         [:h1 {:style "margin-bottom:0px"} "Among Friends"]
+                         [:p {:style "margin-top:0px"} [:small " (a collection of demonstration apps using "
                           (e/link-to "http://github.com/cemerick/friend" "Friend")
-                          ", an authentication and authorization library for securing Clojure web services and applications.)"]
+                          ", an authentication and authorization library for securing Clojure web services and applications.)"]]
                          [:p "Each demo application is self-contained, interactive, and annotated with links to its source."]
                          [:h2 "Demonstrations"]
                          [:ol
@@ -43,6 +45,7 @@
 
 (def site (apply compojure/routes
             landing
+            (route/resources "/" {:root "META-INF/resources/webjars/foundation/4.0.4/"})
             (for [{:keys [app page route-prefix] :as metadata} the-menagerie]
               (compojure/context route-prefix []
                 (wrap-app-metadata (compojure/routes (or page (fn [_])) (or app (fn [_]))) metadata)))))

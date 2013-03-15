@@ -20,7 +20,10 @@
                  [hiccup "1.0.1"]
                  
                  ;; only used to discover demo app namespaces
-                 [bultitude "0.1.7"]]
+                 [bultitude "0.1.7"]
+                 
+                 ;; only used for foundation js/css
+                 [org.webjars/foundation "4.0.4"]]
   
   ;; the final clean keeps AOT garbage out of the REPL's way, and keeps
   ;; the namespace metadata available at runtime

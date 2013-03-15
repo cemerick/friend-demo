@@ -2,7 +2,7 @@
       :doc "Using HTTP Basic to authenticate to a Ring app"}
   cemerick.friend-demo.http-basic
   (:require [cemerick.friend-demo.users :refer (users)]
-            [cemerick.friend-demo.misc :refer (context-uri request-url github-link)]
+            [cemerick.friend-demo.misc :as misc :refer (context-uri request-url github-link)]
             [cemerick.friend :as friend]
             (cemerick.friend [workflows :as workflows]
                              [credentials :as creds])
@@ -31,23 +31,24 @@
 (defn http-basic-page
   [req footer]
   (h/html5
-    (github-link req)
-    [:h2 (-> req :demo :name)]
-    [:p
-     "Attempting to access " (e/link-to {:id "interactive_url"}
-                                        (context-uri req "requires-authentication")
-                                        "this link")
-     " will issue a challenge for your user-agent (browser) to provide HTTP Basic credentials. "
-     "Once authenticated, all the authorization options available in Friend are available to restrict the permissions of particular users."]
-    [:p "Please note that Chrome (and maybe other browsers) silently save HTTP Basic credentials for the duration of the session (and resend them automatically!), so "
-     (e/link-to (context-uri req "/logout") "logging out")
-     " won't work as expected."]
-    [:p
-     "You can access resources requiring HTTP Basic authentication trivially in any HTTP client (like `curl`) with a URL such as:"]
-    [:code "curl "
-     (str/replace (str (request-url req) "/requires-authentication")
-                  #"://" #(str % (-> @users first val :username (str ":clojure@"))))]
-    footer))
+    misc/pretty-head
+    [:body {:class "row"}
+     (github-link req)
+     [:h2 (-> req :demo :name)]
+     [:p "Attempting to access " (e/link-to {:id "interactive_url"}
+                                (context-uri req "requires-authentication")
+                                "this link")
+         " will issue a challenge for your user-agent (browser) to provide HTTP Basic credentials. "
+         "Once authenticated, all the authorization options available in Friend are available to restrict the permissions of particular users."]
+     [:p "Please note that Chrome (and maybe other browsers) silently save HTTP Basic credentials for the duration of the session (and resend them automatically!), so "
+      (e/link-to (context-uri req "/logout") "logging out")
+      " won't work as expected."]
+     [:p "You can access resources requiring HTTP Basic authentication trivially in "
+         "any HTTP client (like `curl`) with a URL such as:"]
+    [:p [:code "curl "
+         (str/replace (str (request-url req) "/requires-authentication")
+           #"://" #(str % (-> @users first val :username (str ":clojure@"))))]]
+    footer]))
 
 (defroutes page
   (GET "/" req
