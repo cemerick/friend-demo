@@ -50,6 +50,7 @@
 (def pretty-head
   [:head [:link {:href "/css/normalize.css" :rel "stylesheet" :type "text/css"}]
          [:link {:href "/css/foundation.min.css" :rel "stylesheet" :type "text/css"}]
+         [:style {:type "text/css"} "ul { padding-left: 2em }"]
          [:script {:src "/js/foundation.min.js" :type "text/javascript"}]])
 
 (defn pretty-body

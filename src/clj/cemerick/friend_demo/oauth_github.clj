@@ -32,35 +32,35 @@
   (GET "/" req
     (h/html5
       misc/pretty-head
-      (misc/github-link req)
       (misc/pretty-body
-       [:h2 "Authenticating via GitHub using OAuth2 [EXPERIMENTAL]"]
-       [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
-       [:p (if-let [identity (friend/identity req)]
-             (str "Logged in, with these roles "
-               (-> identity friend/current-authentication :roles seq)
-               " and this GitHub OAuth2 access token: " (:current identity))
-             "anonymous user")]
-       
-       [:h3 [:a {:href "github.callback"} "Login with GitHub"]]
-       
-       (when-let [{access-token :access_token} (friend/current-authentication req)]
-         [:div
-          [:h3 "Some of your public repositories on GitHub, obtained using the access token above:"]
-          [:ul (for [repo (get-public-repos access-token)]
-                 [:li (:full-name repo)])]])
-       
-       [:h3 "Authorization demos"]
-       [:p "Each of these links require particular roles (or, any authentication) to access. "
-           "If you're not authenticated, you will be redirected to a dedicated login page. "
-           "If you're already authenticated, but do not meet the authorization requirements "
-           "(e.g. you don't have the proper role), then you'll get an Unauthorized HTTP response."]
-       [:ul [:li (e/link-to (misc/context-uri req "role-user") "Requires the `user` role")]
-        ;[:li (e/link-to (misc/context-uri req "role-admin") "Requires the `admin` role")]
-        [:li (e/link-to (misc/context-uri req "requires-authentication")
-               "Requires any authentication, no specific role requirement")]]
-       [:h3 "Logging out"]
-       [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."])))
+        (misc/github-link req)
+        [:h2 "Authenticating via GitHub using OAuth2 [EXPERIMENTAL]"]
+        [:h3 "Current Status " [:small "(this will change when you log in/out)"]]
+        [:p (if-let [identity (friend/identity req)]
+              (str "Logged in, with these roles "
+                (-> identity friend/current-authentication :roles seq)
+                " and this GitHub OAuth2 access token: " (:current identity))
+              "anonymous user")]
+        
+        [:h3 [:a {:href "github.callback"} "Login with GitHub"]]
+        
+        (when-let [{access-token :access_token} (friend/current-authentication req)]
+          [:div
+           [:h3 "Some of your public repositories on GitHub, obtained using the access token above:"]
+           [:ul (for [repo (get-public-repos access-token)]
+                  [:li (:full-name repo)])]])
+        
+        [:h3 "Authorization demos"]
+        [:p "Each of these links require particular roles (or, any authentication) to access. "
+            "If you're not authenticated, you will be redirected to a dedicated login page. "
+            "If you're already authenticated, but do not meet the authorization requirements "
+            "(e.g. you don't have the proper role), then you'll get an Unauthorized HTTP response."]
+        [:ul [:li (e/link-to (misc/context-uri req "role-user") "Requires the `user` role")]
+         ;[:li (e/link-to (misc/context-uri req "role-admin") "Requires the `admin` role")]
+         [:li (e/link-to (misc/context-uri req "requires-authentication")
+                "Requires any authentication, no specific role requirement")]]
+        [:h3 "Logging out"]
+        [:p (e/link-to (misc/context-uri req "logout") "Click here to log out") "."])))
   (GET "/logout" req
     (friend/logout* (resp/redirect (str (:context req) "/"))))
   (GET "/requires-authentication" req
