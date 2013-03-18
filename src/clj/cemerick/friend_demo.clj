@@ -31,10 +31,21 @@
                         (misc/pretty-body 
                          [:h1 {:style "margin-bottom:0px"}
                           [:a {:href "http://github.com/cemerick/friend-demo"} "Among Friends"]]
-                         [:p {:style "margin-top:0px"} [:small " (a collection of demonstration apps using "
+                         [:p {:style "margin-top:0px"} "…a collection of demonstration apps using "
                           (e/link-to "http://github.com/cemerick/friend" "Friend")
-                          ", an authentication and authorization library for securing Clojure web services and applications.)"]]
-                         [:p "Each demo application is self-contained, interactive, and annotated with links to its source."]
+                          ", an authentication and authorization library for securing Clojure web services and applications."]
+                         [:p "Implementing authentication and authorization for your web apps is generally a
+necessary but not particularly pleasant task, even if you are using Clojure.
+Friend makes it relatively easy and relatively painless, but I thought the
+examples that the project's documentation demanded deserved a better forum than
+to bit-rot in a markdown file or somesuch. So, what better than a bunch of live
+demos of each authentication workflow that Friend supports (or is available via
+another library that builds on top of Friend), with smatterings of
+authorization examples here and there, all with links to the
+generally-less-than-10-lines of code that makes it happen?  
+
+Check out the demos, find the one(s) that apply to your situation, and
+click the button on the right to go straight to the source for that demo:"]
                          [:h2 "Demonstrations"]
                          [:ol
                           (for [{:keys [name doc route-prefix]} the-menagerie]
