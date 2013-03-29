@@ -54,7 +54,7 @@
             (friend/authenticate
               routes
               {:allow-anon? true
-               :default-landing-uri (str (misc/ns->context *ns*) "/")
+               :default-landing-uri "/"
                :workflows [(openid/workflow
-                             :openid-uri (str (misc/ns->context *ns*) "/login")
+                             :openid-uri "/login"
                              :credential-fn identity)]})))
