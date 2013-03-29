@@ -46,11 +46,18 @@ generally-less-than-10-lines of code that makes it happen?
 
 Check out the demos, find the one(s) that apply to your situation, and
 click the button on the right to go straight to the source for that demo:"]
-                         [:h2 "Demonstrations"]
-                         [:ol
-                          (for [{:keys [name doc route-prefix]} the-menagerie]
-                            [:li (e/link-to (str route-prefix "/") [:strong name])
-                             " — " doc])])])))
+                         [:div {:class "columns small-8"}
+                          [:h2 "Demonstrations"]
+                          [:ol
+                           (for [{:keys [name doc route-prefix]} the-menagerie]
+                             [:li (e/link-to (str route-prefix "/") [:strong name])
+                              " — " doc])]]
+                         [:div {:class "columns small-4"}
+                          [:h2 "Credentials"]
+                          [:p "All demo applications here that directly require user-provided credentials
+recognize two different username/password combinations:"]
+                          [:ul [:li [:code "friend/clojure"] " — associated with a \"user\" role"]
+                               [:li [:code "friend-admin/clojure"] " — associated with a \"user\" role"]]])])))
 
 (defn- wrap-app-metadata
   [h app-metadata]
