@@ -1,4 +1,4 @@
-(defproject com.cemerick/friend-demo "0.0.1-SNAPSHOT"
+(defproject com.cemerick/friend-demo "0.0.2-SNAPSHOT"
   :description "(eventually,) An über-demo of all that Friend has to offer."
   :url "http://github.com/cemerick/friend-demo"
   :license {:name "Eclipse Public License"
@@ -8,7 +8,7 @@
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  
-                 [com.cemerick/friend "0.1.5"]
+                 [com.cemerick/friend "0.2.0-SNAPSHOT"]
 
                  [compojure "1.1.4"]
                  [ring/ring-jetty-adapter "1.1.0"]
