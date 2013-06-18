@@ -35,7 +35,7 @@
      [:p "We've sent you a PIN (not really; it's always `1234` in this demo, but you could use something like Twilio to send a PIN); "
       "please enter it and your password here:"]
      [:form {:action "finish" :method "POST" :class "columns small-4"}
-      [:div "Password: " [:input {:type "text" :name "password"}]]
+      [:div "Password: " [:input {:type "password" :name "password"}]]
       [:div "PIN: " [:input {:type "text" :name "pin"}]]
       [:input {:type "submit" :class "button" :value "Verify PIN"}]])))
 
