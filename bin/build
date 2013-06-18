@@ -1,3 +1,5 @@
-# used only by heroku when it builds its slug for deployment
-# the `production` profile brings in a heroku-local mirror for central and clojars
-lein with-profile production sanity-check
+# running main just so all code is loaded before deployment
+# can't AOT because it elides namespace metadata, which we use to build the
+# parts of the site
+lein with-profile heroku run -m cemerick.friend-demo
+

@@ -78,5 +78,7 @@ recognize two different username/password combinations:"]
 
 (defn -main
   "For heroku."
-  [port]
-  (ring.adapter.jetty/run-jetty #'site {:port (Integer. port)}))
+  [& [port]]
+  (if port
+    (ring.adapter.jetty/run-jetty #'site {:port (Integer. port)})
+    (println "No port specified, exiting.")))
