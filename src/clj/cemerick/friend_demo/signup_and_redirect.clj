@@ -10,7 +10,6 @@
             (compojure [handler :as handler]
                        [route :as route])
             [ring.util.response :as resp]
-            [ring.middleware.flash :as flash]
             [hiccup.page :as h]
             [hiccup.element :as e]))
 
@@ -93,13 +92,15 @@
   (GET "/:user" req
        (friend/authenticated
 	       (let [user (:user (req :params))]
-		       (h/html5
-		         misc/pretty-head
-		         (misc/pretty-body
-		           (misc/github-link req)
-		           [:h2 (str "Hello, new user " user "!")]
-		           [:p "Return to the " (e/link-to (misc/context-uri req "") "example") 
-	                 ", or " (e/link-to (misc/context-uri req "logout") "log out") "."]))))))
+           (if (= user (:username (friend/current-authentication)))
+			       (h/html5
+			         misc/pretty-head
+			         (misc/pretty-body
+			           (misc/github-link req)
+			           [:h2 (str "Hello, new user " user "!")]
+			           [:p "Return to the " (e/link-to (misc/context-uri req "") "example") 
+		                 ", or " (e/link-to (misc/context-uri req "logout") "log out") "."]))
+             (resp/redirect (str (:context req) "/")))))))
 
 (def page (handler/site
             (friend/authenticate
