@@ -29,5 +29,7 @@
   ;; the namespace metadata available at runtime
   :aliases  {"sanity-check" ["do" "clean," "compile" ":all," "clean"]}
   
+  :main cemerick.friend-demo
+  
   :ring {:handler cemerick.friend-demo/site
          :init cemerick.friend-demo/init})
