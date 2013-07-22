@@ -57,7 +57,7 @@ click the button on the right to go straight to the source for that demo:"]
                           [:p "All demo applications here that directly require user-provided credentials
 recognize two different username/password combinations:"]
                           [:ul [:li [:code "friend/clojure"] " — associated with a \"user\" role"]
-                               [:li [:code "friend-admin/clojure"] " — associated with a \"user\" role"]]])])))
+                               [:li [:code "friend-admin/clojure"] " — associated with an \"admin\" role"]]])])))
 
 (defn- wrap-app-metadata
   [h app-metadata]
